@@ -1,0 +1,32 @@
+recognize.py
+python recognize.py --detector face_detection_model --embedding-model openface_nn4.small2.v1.t7 --recognizer output\recognizer.pickle --le output\le.pickle --image images\adrian.jpg
+
+
+extract embeddings
+python extract_embeddings.py --dataset dataset --embeddings output\embeddings.pickle --detector face_detection_model --embedding-model openface_nn4.small2.v1.t7
+
+
+training
+python train_model.py --embeddings output\embeddings.pickle --recognizer output\recognizer.pickle --le output\le.pickle
+
+recognize video.py
+python recognize_video.py --detector face_detection_model --embedding-model openface_nn4.small2.v1.t7 --recognizer output\recognizer.pickle --le output\le.pickle
+
+
+
+
+
+ffmpeg
+
+ffmpeg -f dshow -i video="Integrated Webcam":audio="Microphone (High Definition Aud" -vcodec libx264 -preset ultrafast -tune zerolatency -r 10 -async 1 -acodec libmp3lame -ab 24k -ar 22050 -bsf:v h264_mp4toannexb -maxrate 750k -bufsize 3000k -f mpegts udp://192.168.43.141:5000
+
+
+ffmpeg -i "E:\movies\www.1MovieRulz.tv - Andhahun (2018) 720p Hindi Proper HDRip x264 5.1 - 1.4GB MSub.mkv" -vcodec libx264 -preset ultrafast -tune zerolatency -r 10 -async 1  -bsf:v h264_mp4toannexb -maxrate 750k -bufsize 3000k -f mpegts udp://192.168.43.141:5000
+
+to play from movie:
+ffplay -probesize 32 -i udp://0.0.0.0:5000
+
+drone:
+ffplay -probesize 32 -i udp://0.0.0.0:11111
+
+
